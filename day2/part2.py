@@ -3,7 +3,22 @@ import sys
 
 def isPatterned(x):
     for i in range(len(str(x))//2):
-        print(str(x)[:i+1], x)
+        substr = str(x)[:i+1]
+        start = 0
+        match = True
+        while (start < len(str(x))):
+            focus = str(x)[start:len(substr)+start]
+            # print("comparing:", substr, focus, x)
+            if (substr != focus):
+                # print("mismatch")
+                match = False
+                break
+            else:
+                start += len(substr)
+        if match:
+            print("Found match:", substr, x)
+            return x
+
     return 0
 
 
@@ -13,10 +28,10 @@ def doNothing(x):
 
 def doInRange(left, right, function=doNothing):
     count = 0
+    print("[", left, "-", right, "]")
     for i in range(int(left), int(right + 1)):
-        function(i)
-        count += 1
-    return
+        count += function(i)
+    return count
 
 
 def isFactor(factor, number):
@@ -36,7 +51,9 @@ def main(filename):
                 left = int(id_range[0])
                 right = int(id_range[1])
 
-                doInRange(left, right, isPatterned)
+                sum += doInRange(left, right, isPatterned)
+
+        print("Sum: ", sum)
 
 
 if __name__ == "__main__":
